@@ -1,0 +1,10 @@
+cc_library(
+    name="dlogger",
+    srcs=[
+        "dlogger.cpp",
+        "dlogger.h"
+    ],
+    hdrs=[
+        "dlogger.h"
+    ]
+)
