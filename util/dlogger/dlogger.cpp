@@ -3,62 +3,70 @@
 #include <stdarg.h>
 #include <cstdio>
 #include <cstdlib>
+#include <sstream>
 #include <ctime>
+#include <iostream>
+#include <mutex>
 
 namespace dlogger{
 
-const int LOG_BUFSZ = (1 << 15);
-const int TIME_BUFSZ = 105;
+const int TIME_BUF = 105;
 const int LOG_LEVEL_SZ = 5;
-
+const int LOGF_BUF = (1 << 15);
 const char* LOG_LEVEL[LOG_LEVEL_SZ] = {
-    "DEBUG",
-    "INFO",
-    "WARN",
-    "ERROR",
-    "FATAL"
+    "[DEBUG]",
+    "[INFO]",
+    "[WARN]",
+    "[ERROR]",
+    "[FATAL]"
 };
 
+int now_count_log_file;
 
-log::log(const char* file_name) {
-    this->logtostderr = false;
-    this->mu_ptr = std::make_shared<std::mutex>();
-    // read to file as append.
-    this->file = fopen(file_name, "a");
+bool logtostderr;
+
+std::string log_filename_prefix, now_log_filename;
+
+FILE* log_file_stream;
+
+std::mutex file_mu;
+
+void init_log(std::string _log_filename_prefix, bool _logtostderr) {
+    logtostderr = logtostderr;
+    log_filename_prefix = _log_filename_prefix;
+    now_count_log_file = 0;
+    now_log_filename = log_filename_prefix + "." + std::to_string(now_count_log_file);
+    log_file_stream = fopen(now_log_filename.c_str(), "a");
 }
 
-void log::set_logtostderr(bool v) {
-    this->logtostderr = v;
+void add_pre_format(std::ostringstream& oss, int level, const char* filename, int line) {
+    static char time_str[TIME_BUF];
+    static time_t now_time;
+    now_time = time(NULL);
+    strftime(time_str, TIME_BUF, "%Y-%m-%d %H:%M:%S", localtime(&now_time));
+    oss << LOG_LEVEL[level] << "\t[" << time_str << "]" << "\t" << filename << "\tline:" << line << "]\t";
 }
 
-void log::logf(int level, const char* fmt, ...) {
-    if (level >= LOG_LEVEL_SZ) {
-        return ;
-    }
-    static char time_str[TIME_BUFSZ];
-    static time_t time_now = time(NULL);
-    // sprintf fmt-time.
-    strftime(time_str, TIME_BUFSZ - 1, "%Y-%m-%d %H:%M:%S", localtime(&time_now));
+void new_log(std::ostringstream& oss, int level, const char* filename, int line) {
+    add_pre_format(oss, level, filename, line);
+}
 
-    // sprintf fmt content.
+std::string logf(int level, const char* filename, int line, const char* format, ...) {
+    std::ostringstream oss;
+    new_log(oss, level, filename, line);
+    static char log_content[LOGF_BUF];
     va_list ap;
-    static char logs[LOG_BUFSZ];
-    va_start(ap, fmt);
-    vsnprintf(logs, LOG_BUFSZ - 1, fmt, ap);
+    va_start(ap, format);
+    vsnprintf(log_content, LOGF_BUF, format, ap);
     va_end(ap);
-    this->mu_ptr->lock();
-    if(this->file != nullptr) {    
-        fprintf(this->file, "[%s]\t[%s]\t%s\n", LOG_LEVEL[level], time_str, logs);
-    }
+    oss << log_content;
+    return oss.str();
+}
 
-    if(this->logtostderr) {
-        printf("[%s]\t[%s]\t%s\n", LOG_LEVEL[level], time_str, logs);
-    }
-    this->mu_ptr->unlock();
-    if (level == LOG_LEVEL_SZ - 1) {
-        // is Fatal
-        exit(-1);
-    }
+void log_to_file(const char* s) {
+    file_mu.lock();
+    fprintf(log_file_stream, "%s\n", s);
+    file_mu.unlock();
 }
 
 }
