@@ -47,7 +47,7 @@ void init_log(std::string _log_filename_prefix, bool _logtostderr) {
     log_filename_ss.str("");
     std::time_t now_time;
     now_time = std::time(nullptr);
-    log_filename_ss << log_filename_prefix << "." << std::put_time(std::localtime(&now_time), "%Y-%m-%d %H:%M:%S");
+    log_filename_ss << log_filename_prefix << "." << std::put_time(std::localtime(&now_time), "%Y-%m-%d_%H");
     now_log_filename = log_filename_ss.str();
     std::cout << now_log_filename << std::endl;
     log_file_stream = fopen(now_log_filename.c_str(), "a");
