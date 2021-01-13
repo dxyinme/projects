@@ -14,7 +14,7 @@ namespace dlogger{
 const int TIME_BUF = 105;
 const int LOG_LEVEL_SZ = 5;
 const int LOGF_BUF = (1 << 15);
-const int LOG_FILE_BUF = (1 << 12);
+const int LOG_FILE_BUF = (1 << 15);
 
 const char* LOG_LEVEL[LOG_LEVEL_SZ] = {
     "[DEBUG]",
@@ -57,7 +57,8 @@ void init_log(std::string _log_filename_prefix, bool _logtostderr) {
 void add_pre_format(std::ostringstream& oss, int level, const char* filename, int line) {
     std::time_t now_time;
     now_time = std::time(nullptr);
-    oss << LOG_LEVEL[level] << "\t[" << std::put_time(std::localtime(&now_time), "%Y-%m-%d %H:%M:%S") << "]" << "\t" << filename << "\tline:" << line << "]\t";
+    oss << LOG_LEVEL[level] << "\t[" << std::put_time(std::localtime(&now_time), "%Y-%m-%d %H:%M:%S") << "]" << "\t" 
+        << filename << "\tline:" << line << "] ";
 }
 
 void new_log(std::ostringstream& oss, int level, const char* filename, int line) {
@@ -78,6 +79,7 @@ std::string logf(int level, const char* filename, int line, const char* format, 
 
 void log_to_file_flush(const char* s) {
     fprintf(log_file_stream, "%s", s);
+    log_file_buf_stand = 0;
 }
 
 void log_to_file(const char* s) {
@@ -90,11 +92,7 @@ void log_to_file(const char* s) {
         } else {
             buffer[log_file_buf_stand ++] = s[i];    
         }
-        if(log_file_buf_stand >= LOG_FILE_BUF) {
-            buffer[log_file_buf_stand] = '\0';
-            log_to_file_flush(buffer);
-            log_file_buf_stand = 0;
-        }
+        if(log_file_buf_stand >= LOG_FILE_BUF) log_flush();
     }
     buffer[log_file_buf_stand ++] = '\n';
     file_mu.unlock();
