@@ -1,0 +1,13 @@
+cc_library(
+    name="progress_show",
+    srcs=[
+        "progress_show.cpp",
+        "progress_show.h"
+    ],
+    hdrs=[
+        "progress_show.h"
+    ],
+    deps=[
+        "#pthread"
+    ]
+)

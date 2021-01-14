@@ -1,5 +1,11 @@
 # **dlogger**
 
-example :
+introduction
+---
+a simple log.
 
-    see /examples/dlogger_example/example.cpp
+[example](../../examples/dlogger_example/example.cpp)
+
+dependencies
+---
+use pthread.

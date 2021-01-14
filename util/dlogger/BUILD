@@ -6,5 +6,8 @@ cc_library(
     ],
     hdrs=[
         "dlogger.h"
+    ],
+    deps=[
+        "#pthread"
     ]
 )

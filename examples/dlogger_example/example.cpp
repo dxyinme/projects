@@ -1,4 +1,5 @@
 #include "util/dlogger/dlogger.h"
+#include <cstring>
 
 int main() {
     // log init .
