@@ -15,5 +15,15 @@ build in [blade build](https://github.com/chen3feng/blade-build).
 
 ## lib and project
 
-- [dlogger](/util/dlogger/README.md)
-- [progress_show](/util/progress_show/README.md)
+- util
+    - [dlogger](/util/dlogger/README.md)
+    - [progress_show](/util/progress_show/README.md)
+
+## required
+
+- thrift 0.12.0
+    - install
+        https://thrift.apache.org/docs/install/ 
+        https://thrift.apache.org/docs/BuildingFromSource
+        tips: `sudo make install` to install thrift. 
+
