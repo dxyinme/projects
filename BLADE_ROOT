@@ -1,15 +1,6 @@
 cc_config(
-    cxxflags = "-std=c++11"
-)
-
-thrift_library_config(
-    # The path to thrift compiler.
-    thrift = 'thrift',
-    # The libraries depended by thrift.
-    thrift_libs = [
-        '#thrift',
-        '#pthread'
-    ],
-    # The extra include paths to be passed to thrift compiler.
-    thrift_incs = []
+    cxxflags = "-std=c++11",
+    extra_incs = [
+        "third_party"
+    ]
 )
