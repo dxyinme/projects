@@ -2,6 +2,9 @@
 
 
 build in [blade build](https://github.com/chen3feng/blade-build).
+[install_blade](https://github.com/chen3feng/blade-build/blob/master/doc/zh_CN/install.md)
+blade dependency:
+ [ninja](https://github.com/ninja-build/ninja/releases/tag/v1.10.2)
 
 ## env
 
@@ -18,6 +21,7 @@ build in [blade build](https://github.com/chen3feng/blade-build).
 - util
     - [dlogger](/util/dlogger/README.md)
     - [progress_show](/util/progress_show/README.md)
+    - [md5](/util/md5/README.md)
 
 
 ## required
@@ -43,5 +47,5 @@ bash bootstrap.sh
 cd stage/lib
 sudo cp * /usr/lib
 cd ../..
-cp -r boost/ /usr/include/
+sudo cp -r boost/ /usr/include/
 ```
