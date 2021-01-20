@@ -5,9 +5,31 @@
 namespace deliver {
 namespace spliter {
 
-const int EACH_SUB_SIZE = 128 * 1024; // 128 KB
+// reference
+// https://zh.cppreference.com/w/cpp/io/c
 
-int64_t split(const char* filename, std::vector<std::string>& md5);
+const int64_t EACH_SUB_SIZE = 128 * 1024; // 128 KB
+
+block_manager::block_manager(const char* filename) {
+    f = fopen(filename, "rb");
+}
+
+int64_t block_manager::get_block_num() {
+    fseek(f, 0L, SEEK_END);
+    int64_t file_sz = ftell(f);
+    return file_sz;
+}
+
+void block_manager::get_block(int64_t block_id, char* block_content) {
+    fseek(f, EACH_SUB_SIZE * block_id * sizeof(char), SEEK_END);
+    fread(block_content, EACH_SUB_SIZE, 1, f);
+}
+
+block_manager::~block_manager() {
+    if(!f) {
+        fclose(f);
+    }
+}
 
 };
 };

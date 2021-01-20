@@ -4,11 +4,19 @@ cc_library(
         "spliter.h",
         "spliter.cpp"
     ],
-    hrds = [
+    hdrs = [
         "spliter.h"
     ],
-    deps = [
+    deps = []
+)
 
+cc_binary(
+    name = "spliter_test",
+    srcs = [
+        "spliter_test.cpp"
+    ],
+    deps = [
+        "//deliver/spliter:spliter"
     ]
 )
 

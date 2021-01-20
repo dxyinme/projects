@@ -19,3 +19,13 @@ cc_binary(
         "//util/md5:md5"
     ]
 )
+
+cc_binary(
+    name = "md5_sum",
+    srcs = [
+        "md5_sum.cpp"
+    ],
+    deps = [
+        "//util/md5:md5"
+    ]
+)
