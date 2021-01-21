@@ -33,7 +33,7 @@ public:
     
     block_iterator(const char* filename);
 
-    next_block(char* block_content);
+    void next_block(char* block_content);
 
     ~block_iterator();
 };

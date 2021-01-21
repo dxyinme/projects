@@ -26,10 +26,22 @@ void block_manager::get_block(int64_t block_id, char* block_content) {
 }
 
 block_manager::~block_manager() {
-    if(!f) {
+    if(f) {
         fclose(f);
     }
 }
 
+block_iterator::block_iterator(const char* filename) {
+    f = fopen(filename, "rb");
+}
+
+void block_iterator::next_block(char* block_content) {
+    fread(block_content, EACH_SUB_SIZE, 1, f);
+}
+block_iterator::~block_iterator() {
+    if(f) {
+        fclose(f);
+    }
+}
 };
 };
