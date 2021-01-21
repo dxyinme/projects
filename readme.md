@@ -2,7 +2,9 @@
 
 
 build in [blade build](https://github.com/chen3feng/blade-build).
+
 [install_blade](https://github.com/chen3feng/blade-build/blob/master/doc/zh_CN/install.md)
+
 blade dependency:
  [ninja](https://github.com/ninja-build/ninja/releases/tag/v1.10.2)
 
