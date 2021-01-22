@@ -56,6 +56,9 @@ const uint32_t r[] = {7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22
 // leftrotate function definition
 #define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
  
+
+size_t min(size_t A, size_t B) {return A < B ? A : B;}
+
 void to_bytes(uint32_t val, uint8_t *bytes){
     bytes[0] = (uint8_t) val;
     bytes[1] = (uint8_t) (val >> 8);
@@ -72,8 +75,38 @@ uint32_t to_int32(const uint8_t *bytes){
 
 void md5_string(char* msg, uint8_t* result) {
     md5_worker mworker;
-    mworker.update((uint8_t* )msg, strlen(msg), true);
+    mworker.update((uint8_t *)msg, strlen(msg), true);
     mworker.get_digest(result);
+}
+
+void md5_file(char* filename, uint8_t* result, MD5_OP op) {
+    md5_worker mworker;
+    FILE* f ;
+    if (op == MD5_OP::TEXT) {
+        f = fopen(filename, "r");
+    } else {
+        f = fopen(filename, "rb");
+    }
+    fseek(f, 0LL, SEEK_END);
+    size_t sz = ftell(f);
+    char* fcon = new char[(512 / 8) * 2 + 5];
+    fseek(f, 0LL, SEEK_SET);
+    size_t offset = 0;
+
+    while(offset < sz) {
+        size_t now_read_size = min((size_t) 512 / 8, sz - offset);
+        fread(fcon, now_read_size, 1, f);
+        if(offset + (512 / 8) >= sz) { // end of string
+            mworker.update((uint8_t *) fcon, now_read_size, true);
+            break;
+        } else {
+            mworker.update((uint8_t *) fcon, now_read_size, false);
+        }
+        offset += now_read_size;
+    }
+    fclose(f);
+    mworker.get_digest(result);
+    delete(fcon);
 }
 
 md5_worker::md5_worker() {
@@ -91,6 +124,7 @@ void md5_worker::update(const uint8_t* now_msg, size_t now_len, bool is_end) {
     uint8_t* msg = nullptr;
     uint32_t* w = new uint32_t[16];
     uint32_t a, b, c, d, temp, f, g;
+    new_size = 512 / 8;
     if(is_end) {
         for(new_size = now_len + 1; new_size % (512 / 8) != (448 / 8); new_size ++);
         msg = new uint8_t[new_size + 8];
@@ -113,7 +147,6 @@ void md5_worker::update(const uint8_t* now_msg, size_t now_len, bool is_end) {
         b = h1;
         c = h2;
         d = h3;
- 
         // Main loop:
         for(uint32_t i = 0; i<64; i++) {
  

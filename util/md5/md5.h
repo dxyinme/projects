@@ -3,8 +3,14 @@
 namespace util{
 namespace md5{
 
+enum MD5_OP{
+    TEXT,
+    BINARY
+};
+
 void md5_string(char* msg, uint8_t* result);
 
+void md5_file(char* filename, uint8_t* result, MD5_OP op);
 
 // prepare for large file.
 class md5_worker {
