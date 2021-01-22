@@ -8,6 +8,26 @@
 namespace util{
 namespace md5{
 
+/*
+MD5 step
+
+1. extend 
+
+extend origin string into this :
+
+string :          [string]     [0x80]         [000...000]       | len(origin string)% pow(2,64) |
+block  :      |origin string|  1 byte  |                        |                               |
+length :      |      length % (512 / 8) == (448 / 8)            |           64 / 8              |
+
+2. divide 
+
+for each block which length = (512 / 8) byte , update working.
+
+3. get digest
+*/
+
+
+
 // Constants are the integer part of the sines of integers (in radians) * 2^32.
 const uint32_t k[64] = {
 0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee ,
