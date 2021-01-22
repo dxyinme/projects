@@ -9,8 +9,8 @@ int main() {
     CROW_ROUTE(app, "/info")([](){
         using namespace crow::json;
         using namespace std;
-        wvalue ret;
-        wvalue pal_obj;
+
+        wvalue ret, pal_obj;
         vector<string> util_list;
         
         util_list.push_back("dlogger");
@@ -18,7 +18,7 @@ int main() {
         util_list.push_back("md5");
         
         pal_obj["util"] = util_list;
-        ret["ProjectAndLib"] = move(pal_obj);
+        ret["ProjectAndLib"] = std::move(pal_obj);
         return ret;
     });
     app.port(18080).multithreaded().run();

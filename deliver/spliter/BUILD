@@ -7,7 +7,9 @@ cc_library(
     hdrs = [
         "spliter.h"
     ],
-    deps = []
+    deps = [
+        "//util/md5:md5"
+    ]
 )
 
 cc_binary(

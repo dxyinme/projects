@@ -38,5 +38,22 @@ public:
     ~block_iterator();
 };
 
+class description {
+private:
+    std::string filename;
+
+    uint8_t fileMD5[16];
+
+    uint8_t filenameMD5[16];
+
+    int64_t block_number;
+public:
+    description(const char* _filename);
+    
+    void get_result(char* result);
+    
+    ~description();
+}
+
 };
 };
