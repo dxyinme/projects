@@ -1,9 +1,14 @@
+#include "util/md5/md5.h"
+
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include <stdint.h>
 
 namespace deliver {
 namespace spliter {
+
+const int64_t EACH_SUB_SIZE = 128 * 1024; // 128 KB
 
 class block_manager {
 private:
@@ -46,14 +51,14 @@ private:
 
     uint8_t filenameMD5[16];
 
-    int64_t block_number;
+    size_t block_number;
 public:
     description(const char* _filename);
     
-    void get_result(char* result);
+    std::string to_string();
     
     ~description();
-}
+};
 
 };
 };

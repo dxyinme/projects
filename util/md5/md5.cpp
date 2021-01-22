@@ -73,13 +73,13 @@ uint32_t to_int32(const uint8_t *bytes){
         | ((uint32_t) bytes[3] << 24);
 }
 
-void md5_string(char* msg, uint8_t* result) {
+void md5_string(const char* msg, uint8_t* result) {
     md5_worker mworker;
     mworker.update((uint8_t *)msg, strlen(msg), true);
     mworker.get_digest(result);
 }
 
-void md5_file(char* filename, uint8_t* result, MD5_OP op) {
+void md5_file(const char* filename, uint8_t* result, MD5_OP op) {
     md5_worker mworker;
     FILE* f ;
     if (op == MD5_OP::TEXT) {

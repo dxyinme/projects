@@ -8,9 +8,9 @@ enum MD5_OP{
     BINARY
 };
 
-void md5_string(char* msg, uint8_t* result);
+void md5_string(const char* msg, uint8_t* result);
 
-void md5_file(char* filename, uint8_t* result, MD5_OP op);
+void md5_file(const char* filename, uint8_t* result, MD5_OP op);
 
 // prepare for large file.
 class md5_worker {
