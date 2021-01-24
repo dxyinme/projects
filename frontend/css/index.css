@@ -1,0 +1,48 @@
+.header-word {
+    font-size: 45px;
+    font-family:"Times New Roman";
+    color: antiquewhite;
+}
+
+.footer-word {
+    color: antiquewhite;
+    font-size: 20px;
+}
+
+.projects-index-header {
+    background-color: #2F4056;
+    height: 60px;
+}
+
+.projects-index-footer {
+    background-color: #2F4056;
+    height: 60px;
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    left: 0px;
+}
+
+.projects-view {
+    top: 60px;
+    bottom: 60px;
+}
+
+.strong {
+    font-weight: 700;
+    font-family: "Times New Roman";
+}
+
+.projects-view-page {
+    visibility: hidden;
+}
+
+.projects-normal-text, .projects-normal-link {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.projects-normal-link {
+    color: brown;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Projects</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.5.7/css/layui.min.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link type="image/x-icon" rel="shortcut icon" href="proj.ico">
+</head>
+<body>
+
+<div class="header projects-index-header">
+    <div class="layui-main layui-anim layui-anim-up">
+        <div class="header-word">Projects</div>
+    </div>
+</div>
+      
+<div id="view">
+    <div class="layui-side layui-bg-black projects-view">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="">
+                <li class="layui-nav-item">
+                    <a class="strong" onclick="setHome()">Home</a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="strong" onclick="setLukaProject()">LukaProject</a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="strong" onclick="setCppProjects()">c++ Project</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body projects-view">
+        <div id="show" class="projects-view-page" style="visibility: visible;">
+        </div>
+        <div id="home" class="projects-view-page">
+            <h1 class="strong">here are some c++ and golang projects.</h1>
+            <div></div>
+        </div>
+        <div id="luka-project" class="projects-view-page">
+            <h1 class="strong">Luka</h1>
+            <div class="projects-normal-text">An instant-messaging Project</div>
+            <a class="projects-normal-link" href="https://github.com/dxyinme/Luka">Luka</a>
+        </div>
+        <div id="cpp-projects" class="projects-view-page">
+            <h1 class="strong">some projects writed by c++</h1>
+            <h2 class="strong">env</h2>
+            <pre>
+                <code>g++ 6.3.0</code>
+                <code>blade-build</code>
+                <code>boost 1.62.0</code>
+            </pre>
+            <a class="projects-normal-link" href="https://github.com/dxyinme/projects">projects</a>
+        </div>
+    </div>
+</div>
+
+<div class="projects-index-footer" style="text-align: center;">
+    <div class="layui-main layui-anim layui-anim-up">
+        <div class="footer-word">
+            <a class="footer-word" href="/">@Projects</a> 
+            since 2020.
+        </div>
+        <div class="footer-word">product by <a class="footer-word" href="https://github.com/dxyinme">@dxyinme</a></div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.5.7/layui.min.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        let element = layui.element;    
+    });
+    function setHome() {
+        let html = document.getElementById("home").innerHTML;
+        document.getElementById("show").innerHTML = html;
+    }
+    function setLukaProject() {
+        let html = document.getElementById("luka-project").innerHTML;
+        document.getElementById("show").innerHTML = html;
+    }
+    function setCppProjects() {
+        let html = document.getElementById("cpp-projects").innerHTML;
+        document.getElementById("show").innerHTML = html;
+    }
+    (()=>{
+        // preload
+        setHome();
+	})();
+</script>
+</body>
+</html>
