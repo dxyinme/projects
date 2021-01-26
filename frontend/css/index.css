@@ -13,23 +13,10 @@
     background-color: #2F4056;
     height: 60px;
     width: 100%;
-    top: 0px;
-    position: fixed;
-    text-align: center;
-}
-
-.projects-index-footer {
-    background-color: #2F4056;
-    height: 60px;
-    bottom: 0px;
-    width: 100%;
-    position: fixed;
-    text-align: center;
 }
 
 .projects-view {
     top: 60px;
-    bottom: 60px;
 }
 
 .strong {
@@ -39,13 +26,18 @@
 
 .projects-view-page {
     visibility: hidden;
+    margin-left: 5%;
 }
 
-.projects-normal-text, .projects-normal-link {
+.projects-normal-text, .projects-normal-link, .projects-name-link {
     font-weight: 300;
     font-size: 20px;
 }
 
 .projects-normal-link {
     color: brown;
+}
+
+.projects-name-link {
+    color: blue;
 }
