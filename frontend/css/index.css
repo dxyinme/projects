@@ -27,6 +27,7 @@
 .projects-view-page {
     visibility: hidden;
     margin-left: 5%;
+    width: fit-content;
 }
 
 .projects-normal-text, .projects-normal-link, .projects-name-link {

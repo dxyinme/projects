@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/index.css">
   <link type="image/x-icon" rel="shortcut icon" href="proj.ico">
 </head>
-<body>
+<body class="layui-layout-body">
 
 <div class="projects-index-header">
     <div class="layui-main layui-anim layui-anim-up">
@@ -26,10 +26,10 @@
                     <a class="strong" onclick="setHome()">Home</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="strong" onclick="setLukaProject()">LukaProject</a>
+                    <a class="strong" id="LukaProject">LukaProject</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="strong" onclick="setCppProjects()">c++ Project</a>
+                    <a class="strong" id="cppProjects">c++ Project</a>
                 </li>
             </ul>
         </div>
@@ -37,48 +37,55 @@
     <div class="layui-body projects-view">
         <div id="show" class="projects-view-page layui-anim layui-anim-up" style="visibility: visible;">
         </div>
-        <div id="home" class="projects-view-page">
-            <h1 class="strong">introduction</h1>
-            <div class="projects-normal-text">here are some c++ and golang projects.</div>
-            <div class="projects-normal-text">these projects had begun since 2020. about huge filesystem, instant-messaging and so on</div>
-            <div class="projects-normal-text">Product by <a class="projects-name-link" href="https://github.com/dxyinme">dxyinme</a></div>
-            <div class="projects-normal-text">You can email me to dxyinme@outlook.com</div>
-        </div>
-        <div id="luka-project" class="projects-view-page">
-            <h1 class="strong">Luka</h1>
-            <div class="projects-normal-text">An instant-messaging Project</div>
-            <a class="projects-normal-link" href="https://github.com/dxyinme/Luka">Luka</a>
-        </div>
-        <div id="cpp-projects" class="projects-view-page">
-            <h1 class="strong">some projects writed by c++</h1>
-            <h2 class="strong">env</h2>
-            <pre>
-                <code>g++ 6.3.0</code>
-                <code>blade-build</code>
-                <code>boost 1.62.0</code>
-            </pre>
-            <a class="projects-normal-link" href="https://github.com/dxyinme/projects">projects</a>
-        </div>
     </div>
 </div>
 
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.5.7/layui.min.js" charset="utf-8"></script>
 <script>
     layui.use('element', function(){
         let element = layui.element;    
     });
+
     function setHome() {
-        let html = document.getElementById("home").innerHTML;
-        document.getElementById("show").innerHTML = html;
+        $.ajax({
+            url: "/index-sub-page/home.html",
+            dataType: "text",
+            success: function(data) {
+                $("#show").html(data);
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });
     }
-    function setLukaProject() {
-        let html = document.getElementById("luka-project").innerHTML;
-        document.getElementById("show").innerHTML = html;
-    }
-    function setCppProjects() {
-        let html = document.getElementById("cpp-projects").innerHTML;
-        document.getElementById("show").innerHTML = html;
-    }
+
+    $("#LukaProject").click(function () {
+        $.ajax({
+            url: "/index-sub-page/luka-project.html",
+            dataType: "text",
+            success: function(data) {
+                $("#show").html(data);
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });    
+    });
+
+    $("#cppProjects").click(function () {
+        $.ajax({
+            url: "/index-sub-page/cpp-projects.html",
+            dataType: "text",
+            success: function(data) {
+                $("#show").html(data);
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });
+    });
+    
     (()=>{
         // preload
         setHome();
