@@ -9,7 +9,8 @@ int main() {
     fclose(f);
     {
         deliver::spliter::block_manager bm("test_10MB");
-        printf("file size = %lld B\n", (long long) bm.get_block_num() * deliver::spliter::EACH_SUB_SIZE);
+        printf("block number = %lld Blocks\n", (long long) bm.get_block_num());
+        printf("file size = %lu B\n", bm.get_file_size());
     }
     deliver::spliter::description temp("test_10MB");
     std::cout << temp.to_string() << std::endl;

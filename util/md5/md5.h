@@ -1,3 +1,7 @@
+#ifndef MD5_H
+#define MD5_H
+#pragma once
+
 #include <stdint.h>
 #include <cstdlib>
 namespace util{
@@ -30,3 +34,5 @@ public:
 
 };
 };
+
+#endif

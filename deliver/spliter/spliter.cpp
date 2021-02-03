@@ -16,14 +16,18 @@ block_manager::block_manager(const char* filename) {
     f = fopen(filename, "rb");
 }
 
-int64_t block_manager::get_block_num() {
-    fseek(f, 0L, SEEK_END);
-    int64_t file_sz = ftell(f);
-    int64_t block_num = file_sz / EACH_SUB_SIZE;
+size_t block_manager::get_block_num() {
+    size_t file_sz = get_file_size();
+    size_t block_num = file_sz / EACH_SUB_SIZE;
     if(file_sz % EACH_SUB_SIZE != 0) {
         block_num ++;
     }
     return block_num;
+}
+
+size_t block_manager::get_file_size() {
+    fseek(f, 0L, SEEK_END);
+    return ftell(f);
 }
 
 void block_manager::get_block(int64_t block_id, char* block_content) {
@@ -55,6 +59,7 @@ description::description(const char* _filename) {
     {
         block_manager bm(_filename);
         block_number = bm.get_block_num();
+        file_size = bm.get_file_size();
     }
     using namespace util::md5;
     md5_string(_filename, filenameMD5);
@@ -67,11 +72,12 @@ std::string description::to_string() {
     for(size_t i = 0 ; i < 16; i++) {
         sprintf(md5_body + i * 2, "%2.2x", filenameMD5[i]);
     }
-    ss << "NAME=" << md5_body << "|FILE=";
+    ss << "FILENAME=" << filename << "|" << "NAME=" << md5_body << "|FILE=";
     for(size_t i = 0 ; i < 16; i++) {
         sprintf(md5_body + i * 2, "%2.2x", fileMD5[i]);
     }
     ss << md5_body << "|BLOCKNUM=" << block_number;
+    ss << "|FILE_SIZE=" << file_size;
     return ss.str();
 }
 

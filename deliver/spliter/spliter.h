@@ -1,3 +1,7 @@
+#ifndef SPLITER_H
+#define SPLITER_H
+#pragma once
+
 #include "util/md5/md5.h"
 
 #include <cstdio>
@@ -19,12 +23,14 @@ public:
     
     block_manager(const char* filename);
     
-    int64_t get_block_num();
+    size_t get_block_num();
 
     // only be used in normal type
     // block_id counted from zero.
     // confirm block_content size bigger than 128 * 1024
     void get_block(int64_t block_id, char* block_content);
+
+    size_t get_file_size();
 
     ~block_manager();
 };
@@ -52,6 +58,8 @@ private:
     uint8_t filenameMD5[16];
 
     size_t block_number;
+
+    size_t file_size;
 public:
     description(const char* _filename);
     
@@ -62,3 +70,5 @@ public:
 
 };
 };
+
+#endif
