@@ -3,6 +3,7 @@
 #include <cstring>
 #include <vector>
 #include <utility>
+#include <iostream>
 
 int main() {
     crow::SimpleApp app;
@@ -21,6 +22,23 @@ int main() {
         ret["ProjectAndLib"] = std::move(pal_obj);
         return ret;
     });
+
+    CROW_ROUTE(app, "/test_json")
+    .methods("POST"_method)
+    ([](const crow::request& req){
+        using namespace std;
+        crow::json::wvalue ret;
+        auto x = crow::json::load(req.body);
+        std::cout << req.body << std::endl;
+        if (!x) {
+            return crow::response(400);
+        }
+        ret = std::move(x);
+        ret["status"] = "finish";
+        std::string s = crow::json::dump(ret);
+        return crow::response{ s };
+    });
+
     app.port(18080).multithreaded().run();
     return 0;
 }
