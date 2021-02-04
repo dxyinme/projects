@@ -12,6 +12,7 @@
 namespace deliver {
 namespace spliter {
 
+// equal to deliver::collector::EACH_SUB_SIZE
 const int64_t EACH_SUB_SIZE = 128 * 1024; // 128 KB
 
 class block_manager {
@@ -28,7 +29,7 @@ public:
     // only be used in normal type
     // block_id counted from zero.
     // confirm block_content size bigger than 128 * 1024
-    void get_block(int64_t block_id, char* block_content);
+    void get_block(size_t block_id, char* block_content);
 
     size_t get_file_size();
 

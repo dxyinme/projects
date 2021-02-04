@@ -8,16 +8,7 @@ cc_library(
         "collector.h"
     ],
     deps = [
-        "//util/md5:md5"
+        "//util/md5:md5",
+        "//util/string_utils:string_utils"
     ]
 )
-
-# cc_binary(
-#     name = "collector_test",
-#     srcs = [
-#         "collector_test.cpp"
-#     ],
-#     deps = [
-#         "//deliver/collector:collector"
-#     ]
-# )

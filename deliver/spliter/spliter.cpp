@@ -30,8 +30,8 @@ size_t block_manager::get_file_size() {
     return ftell(f);
 }
 
-void block_manager::get_block(int64_t block_id, char* block_content) {
-    fseek(f, EACH_SUB_SIZE * block_id * sizeof(char), SEEK_END);
+void block_manager::get_block(size_t block_id, char* block_content) {
+    fseek(f, EACH_SUB_SIZE * block_id * sizeof(char), SEEK_SET);
     fread(block_content, EACH_SUB_SIZE, 1, f);
 }
 

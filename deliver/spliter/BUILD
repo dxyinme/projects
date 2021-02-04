@@ -22,3 +22,12 @@ cc_binary(
     ]
 )
 
+cc_binary(
+    name = "spliter_client",
+    srcs = [
+        "spliter_client.cpp"
+    ],
+    deps = [
+        "//deliver/spliter:spliter"
+    ]
+)
