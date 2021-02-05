@@ -21,7 +21,7 @@ public:
     bool done;
     std::string s_url, s_body, content_type;
     // response body.
-    std::string r_body;
+    std::string r_body, r_message;
 
     http_client();
     void HTTP_GET();

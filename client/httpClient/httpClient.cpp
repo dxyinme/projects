@@ -14,7 +14,7 @@ static const char* s_s_url = "http://localhost";
 
 std::string s_s_body, s_content_type;
 
-std::string s_r_body ;
+std::string s_r_body, s_r_message ;
 
 static void fn_get(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
     if (ev == MG_EV_CONNECT) {
@@ -30,7 +30,8 @@ static void fn_get(struct mg_connection *c, int ev, void *ev_data, void *fn_data
         // Response is received. Print it
         struct mg_http_message *hm = (struct mg_http_message *) ev_data;
         // printf("%.*s", (int) hm->message.len, hm->message.ptr);
-        s_r_body = std::string(hm->message.ptr, hm->message.len);
+        s_r_message = std::string(hm->message.ptr, hm->message.len);
+        s_r_body = std::string(hm->body.ptr, hm->body.len);
         c->is_closing = 1;
         *(bool *) fn_data = true;
     } else if (ev == MG_EV_ERROR) {
@@ -55,7 +56,8 @@ static void fn_post(struct mg_connection *c, int ev, void *ev_data, void *fn_dat
         // Response is received. Print it
         struct mg_http_message *hm = (struct mg_http_message *) ev_data;
         // printf("%.*s", (int) hm->message.len, hm->message.ptr);
-        s_r_body = std::string(hm->message.ptr, hm->message.len);
+        s_r_message = std::string(hm->message.ptr, hm->message.len);
+        s_r_body = std::string(hm->body.ptr, hm->body.len);
         c->is_closing = 1;
         *(bool *) fn_data = true;
     } else if (ev == MG_EV_ERROR) {
@@ -75,6 +77,7 @@ void http_client::HTTP_GET() {
     mg_http_connect(&mgr, s_s_url, fn_get, &done);
     while (!done) mg_mgr_poll(&mgr, 1000);
     r_body = s_r_body;
+    r_message = s_r_message;
     fn_mu.unlock();
 }
 
@@ -87,6 +90,7 @@ void http_client::HTTP_POST() {
     mg_http_connect(&mgr, s_s_url, fn_post, &done);
     while (!done) mg_mgr_poll(&mgr, 1000);
     r_body = s_r_body;
+    r_message = s_r_message;
     fn_mu.unlock();
 }
 

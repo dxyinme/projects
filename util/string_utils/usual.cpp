@@ -20,6 +20,9 @@ void split(std::string& s, std::string& c, std::vector<std::string>& string_afte
         }
     }
     if(s_now.size() != 0) string_after_split.push_back(s_now);
+    if(s.size() >= c.size() && s.substr(s.size() - c.size(), c.size()) == c) {
+        string_after_split.push_back("");
+    }
 }
 
 std::string merge(std::vector<std::string>& string_wait_for_merge, std::string& c) {

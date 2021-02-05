@@ -3,6 +3,7 @@
 #pragma once
 
 #include "util/md5/md5.h"
+#include "util/string_utils/string_utils.h"
 
 #include <cstdio>
 #include <cstring>

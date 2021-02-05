@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdio>
 #include <sstream>
+#include <vector>
 #include <iostream>
 
 namespace deliver {
@@ -55,14 +56,19 @@ block_iterator::~block_iterator() {
 }
 
 description::description(const char* _filename) {
-    filename = _filename;
+    // filename = _filename;
     {
         block_manager bm(_filename);
         block_number = bm.get_block_num();
         file_size = bm.get_file_size();
     }
     using namespace util::md5;
-    md5_string(_filename, filenameMD5);
+    std::string full_filename = _filename;
+    std::string split_item = "/";
+    std::vector<std::string> spliter_vec;
+    util::string_utils::split(full_filename, split_item, spliter_vec);
+    filename = (*--spliter_vec.end());
+    md5_string(filename.c_str(), filenameMD5);
     md5_file(_filename, fileMD5, BINARY); 
 }
 

@@ -8,7 +8,8 @@ cc_library(
         "spliter.h"
     ],
     deps = [
-        "//util/md5:md5"
+        "//util/md5:md5",
+        "//util/string_utils:string_utils"
     ]
 )
 

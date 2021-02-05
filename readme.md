@@ -24,6 +24,7 @@ blade dependency:
     - [dlogger](/util/dlogger/README.md)
     - [progress_show](/util/progress_show/README.md)
     - [md5](/util/md5/README.md)
+    - [string_utils](util/string_utils/README.md)
 
 
 ## required
