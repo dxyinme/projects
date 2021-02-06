@@ -1,4 +1,4 @@
-# **NAME**
+# **string_utils**
 
 introduction
 ---

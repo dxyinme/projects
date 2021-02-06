@@ -1,5 +1,5 @@
 cc_config(
-    cxxflags = "-std=c++11",
+    cxxflags = "-std=c++11 -O2",
     extra_incs = [
         "third_party"
     ]
