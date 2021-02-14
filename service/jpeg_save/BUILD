@@ -5,6 +5,7 @@ cc_binary(
     ],
     deps = [
         "//third_party/crow:crow_deps",
-        "//util/flags:flags"
+        "//util/flags:flags",
+        "//util/md5:md5"
     ]
 )
