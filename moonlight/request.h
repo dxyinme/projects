@@ -12,7 +12,7 @@
 #include <cstring>
 
 namespace moonlight {
-
+namespace request {
 const int parse_end     = 20011;
 const int parse_endless = 20012;
 const int parse_bad     = 20013;
@@ -36,6 +36,8 @@ public:
     ~baseRequest();
 };
 
+
+};
 };
 
 #endif

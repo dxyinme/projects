@@ -7,13 +7,41 @@ cc_library(
         "server.h"
     ],
     hdrs = [
+        "conn.h",
         "server.h"
     ],
     deps = [
         "#pthread",
         "#boost_system",
-        "//moonlight:moonlight_request"
+        
+        "//moonlight:request",
+        "//moonlight:response",
+        "//moonlight:handler"
     ]
+)
+
+cc_library(
+    name = "response",
+    srcs = [
+        "response.cpp",
+        "response.h"
+    ],
+    hdrs = [
+        "response.h"
+    ],
+    deps = []
+)
+
+cc_library(
+    name = "handler",
+    srcs = [
+        "handler.cpp",
+        "handler.h"
+    ],
+    hdrs = [
+        "handler.h"
+    ],
+    deps = []
 )
 
 cc_binary(
@@ -27,7 +55,7 @@ cc_binary(
 )
 
 cc_library(
-    name = "moonlight_request",
+    name = "request",
     srcs = [
         "request.cpp",
         "request.h",

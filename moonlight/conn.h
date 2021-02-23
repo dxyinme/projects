@@ -10,6 +10,8 @@
 #include <boost/asio.hpp>
 
 #include "moonlight/request.h"
+#include "moonlight/response.h"
+#include "moonlight/handler.h"
 
 
 namespace moonlight {
@@ -23,7 +25,7 @@ class conn_pool;
 
 class conn : public std::enable_shared_from_this<conn> {
 public:
-    conn(tcp::socket socket, conn_pool& _conn_pool);
+    conn(tcp::socket socket, conn_pool& _conn_pool, ::moonlight::handler::handler& _handler);
     void start();
     void stop();
     ~conn();
@@ -32,9 +34,11 @@ private:
     
     conn_pool& conn_pool_;
 
-    ::moonlight::baseRequest request_;
+    ::moonlight::request::baseRequest request_;
 
-    // reply reply_;
+    ::moonlight::response::baseResponse response_;
+
+    ::moonlight::handler::handler& handler_;
 
     char data_[BUFSIZE];
 

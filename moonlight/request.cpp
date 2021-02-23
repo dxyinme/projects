@@ -1,6 +1,8 @@
 #include "request.h"
 
 namespace moonlight {
+namespace request {
+
 
 uint32_t bytes_to_u32(uint8_t* ch) { 
     return (uint32_t) ch[0]
@@ -42,4 +44,6 @@ int baseRequest::parse(char* ch, size_t length) {
 
 baseRequest::~baseRequest() {}
 
+
+};
 };

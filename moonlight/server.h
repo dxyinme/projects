@@ -24,11 +24,17 @@ private:
 
     conn_pool conn_pool_;
 
+    boost::asio::io_service& io_service_;
+
+    ::moonlight::handler::handler handler_;
+
 public:
 
 RPCServer(boost::asio::io_service& io_service, int port);
 
 void do_accept();
+
+void run();
 
 ~RPCServer();
 
