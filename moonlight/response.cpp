@@ -12,6 +12,11 @@ void u32_to_bytes(uint8_t* ch, uint32_t val) {
 
 baseResponse::baseResponse() {}
 
+void baseResponse::reset() {
+    method.clear();
+    body.clear();
+}
+
 std::vector<boost::asio::const_buffer> baseResponse::to_buffers() {
     std::vector<boost::asio::const_buffer> buffers;
     buffers.push_back(boost::asio::buffer(method));

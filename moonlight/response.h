@@ -13,6 +13,8 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
+#include "moonlight/common.h"
+
 namespace moonlight {
 namespace response {
 
@@ -25,6 +27,7 @@ public:
     std::string body;
     std::string method;
     baseResponse();
+    void reset();
     std::vector<boost::asio::const_buffer> to_buffers();
     ~baseResponse();
 };

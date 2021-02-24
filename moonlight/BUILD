@@ -4,11 +4,14 @@ cc_library(
         "conn.cpp",
         "conn.h",
         "server.cpp",
-        "server.h"
+        "server.h",
+        "client.cpp",
+        "client.h"
     ],
     hdrs = [
         "conn.h",
-        "server.h"
+        "server.h",
+        "client.h"
     ],
     deps = [
         "#pthread",
@@ -20,6 +23,18 @@ cc_library(
     ]
 )
 
+
+cc_library(
+    name = "common",
+    srcs = [
+        "common.h"
+    ],
+    hdrs = [
+        "common.h"
+    ],
+    deps = []
+)
+
 cc_library(
     name = "response",
     srcs = [
@@ -29,7 +44,9 @@ cc_library(
     hdrs = [
         "response.h"
     ],
-    deps = []
+    deps = [
+        "//moonlight:common"
+    ]
 )
 
 cc_library(
@@ -41,7 +58,9 @@ cc_library(
     hdrs = [
         "handler.h"
     ],
-    deps = []
+    deps = [
+        "//moonlight:common"
+    ]
 )
 
 cc_binary(
@@ -63,7 +82,9 @@ cc_library(
     hdrs = [
         "request.h"
     ],
-    deps = []
+    deps = [
+        "//moonlight:common"
+    ]
 )
 
 cc_binary(
@@ -72,7 +93,8 @@ cc_binary(
         "client_main.cpp"
     ],
     deps = [
-        "//moonlight:moonlight"
+        "//moonlight:moonlight",
+        "//moonlight:common"
     ]
 )
 

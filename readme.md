@@ -20,6 +20,9 @@ blade dependency:
 
 ## lib and project
 
+- rpc
+    - [moonlight](/moonlight/README.md)
+
 - util
     - [flags](/util/flags/README.md)
     - [progress_show](/util/progress_show/README.md)

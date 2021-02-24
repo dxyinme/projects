@@ -10,6 +10,7 @@
 #include <boost/asio.hpp>
 #include <string>
 #include <cstring>
+#include <boost/lexical_cast.hpp>
 
 namespace moonlight {
 namespace request {
@@ -32,6 +33,8 @@ public:
     std::string method;
     size_t bodyLength;
     baseRequest();
+    void reset();
+    std::vector<boost::asio::const_buffer> to_buffers();
     int parse(char* ch, size_t length);
     ~baseRequest();
 };

@@ -12,14 +12,13 @@
 #include "moonlight/request.h"
 #include "moonlight/response.h"
 #include "moonlight/handler.h"
+#include "moonlight/common.h"
 
 
 namespace moonlight {
 namespace server {
 
 using tcp = boost::asio::ip::tcp;
-
-const int BUFSIZE = 4096;
 
 class conn_pool;
 
@@ -40,7 +39,7 @@ private:
 
     ::moonlight::handler::handler& handler_;
 
-    char data_[BUFSIZE];
+    char data_[::moonlight::common::BUFSIZE + 5];
 
     void do_read();
 

@@ -24,9 +24,17 @@ void conn::stop() {
 
 void conn::do_read() {
     auto self(shared_from_this());
-    socket_.async_read_some(boost::asio::buffer(data_, BUFSIZE), 
+    socket_.async_receive(boost::asio::buffer(data_, ::moonlight::common::BUFSIZE), 
         [this, self](boost::system::error_code ec, size_t length) {
             if (!ec) {
+                if (length == 1) {
+                    if ((uint8_t)data_[0] == ::moonlight::common::FIN) {
+                        boost::system::error_code ignored_ec;
+                        socket_.shutdown( boost::asio::ip::tcp::socket::shutdown_both, ignored_ec );
+                        conn_pool_.remove(shared_from_this());
+                        return ;
+                    }
+                }
                 int state = request_.parse(data_, length);
                 if ( state == ::moonlight::request::parse_end ) {
                     std::cerr << "request: " << request_.bodyLength << ", " << request_.method << "\n";
@@ -34,33 +42,35 @@ void conn::do_read() {
                     handler_.handle(request_, response_);
                     do_write();
                 } else if ( state == ::moonlight::request::parse_endless ) {
-                    do_read();
+                    std::cerr << "parse endless" << "\n";
                 } else if (state == ::moonlight::request::parse_bad) {
                     std::cerr << "parse bad" << "\n";
                     conn_pool_.remove(shared_from_this());
+                    return ;
                 } else {
                     std::cerr << "unknown" << "\n";
                     conn_pool_.remove(shared_from_this());
+                    return ;
                 }
-            } else if (ec !=  boost::asio::error::operation_aborted) {
+            } else if (ec != boost::asio::error::operation_aborted) {
                 conn_pool_.remove(shared_from_this());
+                return ;
             }
         });
 }
 
 void conn::do_write() {
     auto self(shared_from_this());
-    boost::asio::async_write(socket_, response_.to_buffers(), 
+    socket_.async_send(response_.to_buffers(), 
         [this, self](boost::system::error_code ec, size_t length) {
             std::cerr << "do_write: " << response_.method << ", " << response_.body.size() << "\n";
             if(!ec) {
-                boost::system::error_code ignored_ec;
-                socket_.shutdown( boost::asio::ip::tcp::socket::shutdown_both, ignored_ec );
-            } 
-            if (ec != boost::asio::error::operation_aborted) {
-                conn_pool_.remove(shared_from_this());
+                // boost::system::error_code ignored_ec;
+                // socket_.shutdown( boost::asio::ip::tcp::socket::shutdown_both, ignored_ec );
             }
-
+            request_.reset();
+            response_.reset();
+            do_read();
         });
 }
 
