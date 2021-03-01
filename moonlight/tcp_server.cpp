@@ -38,6 +38,8 @@ void tcp_server::do_accept() {
             size_t o = conn_ptr->read(ch, 100);
             std::cerr.write(ch, o); std::cerr << "\n";
             conn_ptr->write(ch, o);
+            conn_ptr->close();
+            delete conn_ptr;
         }).detach();
     }
 }
@@ -47,11 +49,6 @@ void tcp_server::run() {
         io_service_pool.emplace_back(new boost::asio::io_service());
     }
     do_accept();
-    std::thread main_is_run([this] {
-        std::cerr << "tcp server start\n";
-        io_service_.run();
-    });
-    main_is_run.join();
 }
 
 tcp_server::~tcp_server() {
