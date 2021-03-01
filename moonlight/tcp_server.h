@@ -8,6 +8,7 @@
 #include <vector>
 #include <utility>
 #include <cstring>
+#include <future>
 
 #include <boost/asio.hpp>
 

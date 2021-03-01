@@ -45,6 +45,17 @@ cc_binary(
         "tcp_server_example.cpp"
     ],
     deps = [
-        "//moonlight:tcp_server"
+        "//moonlight:tcp_server",
+        "//util/flags:flags"
+    ]
+)
+
+cc_binary(
+    name = "tcp_client_example",
+    srcs = [
+        "tcp_client_example.cpp"
+    ],
+    deps = [
+        "//moonlight:tcp_conn"
     ]
 )

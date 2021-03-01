@@ -26,6 +26,8 @@ public:
     
     void write(char* buf, size_t want_len);
     
+    void shutdown();
+
     void close();
 
     ~tcp_conn();

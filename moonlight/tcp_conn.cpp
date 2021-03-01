@@ -34,7 +34,13 @@ void tcp_conn::write(char* buf, size_t want_len) {
 }
 
 void tcp_conn::close() {
-    socket_.close();
+    boost::system::error_code ec;
+    socket_.close(ec);
+}
+
+void tcp_conn::shutdown() {
+    boost::system::error_code ec;
+    socket_.shutdown(boost::asio::socket_base::shutdown_type::shutdown_both, ec);
 }
 
 tcp_conn::~tcp_conn() { }

@@ -29,21 +29,17 @@ boost::asio::io_service& tcp_server::get_one_io_service() {
 }
 
 void tcp_server::do_accept() {
-    boost::asio::io_service& is = get_one_io_service();
-    auto conn = new ::moonlight::conn::tcp_conn(is);
-    acceptor_.async_accept(conn->socket(), 
-    [this, conn, &is] (boost::system::error_code ec) {
-        if (!ec) {
-            is.post([conn] {
-                char buf[100];
-                size_t o = conn->read(buf, 100);
-                std::cout.write(buf, o); std::cout << "\n";
-            });
-        } else {
-            delete conn;
-        }
-        do_accept();
-    });
+    for (;;) {
+        boost::asio::io_service& is = get_one_io_service();
+        auto conn_ptr = new ::moonlight::conn::tcp_conn(is);
+        acceptor_.accept(conn_ptr->socket());
+        std::thread([conn_ptr] {
+            char ch[105];
+            size_t o = conn_ptr->read(ch, 100);
+            std::cerr.write(ch, o); std::cerr << "\n";
+            conn_ptr->write(ch, o);
+        }).detach();
+    }
 }
 
 void tcp_server::run() {
@@ -51,11 +47,11 @@ void tcp_server::run() {
         io_service_pool.emplace_back(new boost::asio::io_service());
     }
     do_accept();
-
-    std::thread([this] {
+    std::thread main_is_run([this] {
         std::cerr << "tcp server start\n";
         io_service_.run();
-    }).join();
+    });
+    main_is_run.join();
 }
 
 tcp_server::~tcp_server() {
