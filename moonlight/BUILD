@@ -1,3 +1,15 @@
+cc_binary(
+    name = "io_service_test",
+    srcs = [
+        "io_service_test.cpp"
+    ],
+    deps = [
+        "#boost_system",
+        "#pthread"
+    ]
+)
+
+
 cc_library(
     name = "moonlight_base",
     srcs = [
@@ -36,6 +48,7 @@ cc_library(
     ],
     deps = [
         "//moonlight:tcp_conn",
+        "//moonlight:moonlight_base"
     ]
 )
 

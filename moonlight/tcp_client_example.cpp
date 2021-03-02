@@ -14,6 +14,7 @@ int main(int argc, char ** argv) {
     conn_ptr->write(req, 11);
     char rsp[105];
     size_t rsp_len = conn_ptr->read(rsp, 100);
+    conn_ptr->close();
     std::cout.write(rsp, rsp_len);
     std::cout << "\n";
     // while(1);
