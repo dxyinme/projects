@@ -13,24 +13,12 @@
 #include <boost/asio.hpp>
 
 #include "moonlight/tcp_conn.h"
+#include "moonlight/handler.h"
 
 namespace moonlight{
 namespace server{
 
 using tcp = boost::asio::ip::tcp;
-
-class tcp_session : 
-    public std::enable_shared_from_this<tcp_session> {
-
-private:
-
-    tcp::socket socket_;
-
-public:
-    tcp_session(tcp::socket _socket);
-    void start();
-    ~tcp_session();
-};
 
 class tcp_server {
 private:
@@ -45,6 +33,8 @@ private:
     std::vector<std::unique_ptr<boost::asio::io_service> > io_service_pool;
 
     size_t currency_, pool_index;
+
+    moonlight::handler::base* handler_;
 
     boost::asio::io_service& select_io_service();
 

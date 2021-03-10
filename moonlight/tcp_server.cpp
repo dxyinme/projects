@@ -7,24 +7,12 @@ namespace server{
 
 using tcp = boost::asio::ip::tcp;
 
-tcp_session::tcp_session(tcp::socket _socket)
-    :socket_(std::move(_socket)) {
-
-}
-
-void tcp_session::start() {
-    
-}
-
-tcp_session::~tcp_session() {
-
-}
-
 tcp_server::tcp_server(std::string addr, int port, size_t currency)
     : io_service_(), 
     acceptor_(io_service_, tcp::endpoint(boost::asio::ip::address::from_string(addr), port)),
     currency_(currency),
-    pool_index(0) {
+    pool_index(0),
+    handler_(new ::moonlight::handler::base()) {
 }
 
 void tcp_server::stop() {
@@ -46,15 +34,8 @@ void tcp_server::do_accept() {
     acceptor_.async_accept(conn_ptr -> socket(), 
         [this, conn_ptr, &is] (boost::system::error_code ec) {
             if (!ec) {
-                is.post([conn_ptr] {
-                    std::cerr << "[read OK]";
-                    char buf[105];
-                    size_t length = conn_ptr->read(buf, 100);
-                    std::cerr.write(buf, length);
-                    std::cerr << "\n";
-                    conn_ptr->write(buf, length);
-                    conn_ptr->shutdown();
-                    conn_ptr->close();
+                is.post([this, conn_ptr] {
+                    handler_ -> handle(conn_ptr);
                 });
             } else {
                 delete conn_ptr;

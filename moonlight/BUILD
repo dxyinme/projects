@@ -48,6 +48,22 @@ cc_library(
     ],
     deps = [
         "//moonlight:tcp_conn",
+        "//moonlight:handler",
+        "//moonlight:moonlight_base"
+    ]
+)
+
+cc_library(
+    name = "handler",
+    srcs = [
+        "handler.cpp",
+        "handler.h"
+    ],
+    hdrs = [
+        "handler.h"
+    ],
+    deps = [
+        "//moonlight:tcp_conn",
         "//moonlight:moonlight_base"
     ]
 )
